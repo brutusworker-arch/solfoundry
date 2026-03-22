@@ -1,14 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import { ThemeToggle } from './ThemeToggle';
+import { WalletConnect } from '../wallet';
 
 interface HeaderProps {
   sidebarCollapsed: boolean;
   onMenuClick: () => void;
-  theme: 'light' | 'dark';
-  onToggleTheme: () => void;
 }
 
-export function Header({ onMenuClick, theme, onToggleTheme }: HeaderProps) {
+export function Header({ onMenuClick }: HeaderProps) {
   const [searchFocused, setSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -83,9 +82,10 @@ export function Header({ onMenuClick, theme, onToggleTheme }: HeaderProps) {
         </div>
       </div>
 
-      {/* Right: Actions */}
+      {/* Right: Wallet + Actions */}
       <div className="flex items-center gap-2 ml-4">
-        <ThemeToggle theme={theme} onToggle={onToggleTheme} />
+        <WalletConnect />
+        <ThemeToggle />
 
         {/* Notification bell */}
         <button
