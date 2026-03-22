@@ -5,6 +5,7 @@ import { useFndryBalance, useBountyEscrow } from '../../hooks/useFndryToken';
 import { solscanTxUrl } from '../../config/constants';
 import { useNetwork } from './WalletProvider';
 import type { TransactionStatus } from '../../types/wallet';
+import { Button } from '../common/Button';
 
 /* ── Approval Modal ─────────────────────────────────────────────────────────── */
 
@@ -294,11 +295,20 @@ export function FundBountyButton({ amount, onFunded, disabled }: FundBountyButto
         </div>
       )}
 
-      <button
+      <Button
         type="button"
         onClick={() => setShowApproval(true)}
         disabled={!canFund || funded}
-        className="w-full py-3 rounded-lg font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed bg-linear-to-r from-purple-600 to-green-500 text-white hover:from-purple-500 hover:to-green-400"
+        isLoading={transaction.status === 'approving' || transaction.status === 'pending' || transaction.status === 'confirming'}
+        loadingText={
+          transaction.status === 'approving'
+            ? 'Awaiting Approval...'
+            : transaction.status === 'pending'
+              ? 'Sending...'
+              : 'Confirming...'
+        }
+        size="lg"
+        className="w-full bg-linear-to-r from-purple-600 to-green-500 hover:from-purple-500 hover:to-green-400 disabled:bg-none disabled:from-gray-700 disabled:to-gray-700 text-white font-bold rounded-lg"
       >
         {!connected
           ? 'Connect Wallet to Fund'
@@ -307,7 +317,7 @@ export function FundBountyButton({ amount, onFunded, disabled }: FundBountyButto
             : insufficient
               ? 'Insufficient $FNDRY Balance'
               : `Fund Bounty — ${amount.toLocaleString()} $FNDRY`}
-      </button>
+      </Button>
 
       {insufficient && connected && !funded && (
         <p className="text-red-400 text-xs mt-2 text-center">

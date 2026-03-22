@@ -4,6 +4,7 @@ import { useWallet as useSolanaWallet } from '@solana/wallet-adapter-react';
 import type { WalletName } from '@solana/wallet-adapter-base';
 import { useWalletConnection } from '../../hooks/useWallet';
 import { NetworkSelector } from './NetworkSelector';
+import { Button } from '../common/Button';
 
 export const SOLFOUNDRY_GREEN = '#00FF88';
 export const SOLANA_PURPLE = '#9945FF';
@@ -57,8 +58,14 @@ export function WalletConnect() {
   if (status === 'disconnected') return (
     <div className="flex items-center gap-2">
       <NetworkSelector />
-      <button type="button" onClick={() => setModalOpen(true)} aria-label="Connect wallet"
-        className="rounded-lg bg-[#00FF88] px-4 py-2 text-sm font-semibold text-surface hover:bg-[#00FF88]/90">Connect Wallet</button>
+      <Button
+        variant="secondary"
+        size="sm"
+        onClick={() => setModalOpen(true)}
+        aria-label="Connect wallet"
+      >
+        Connect Wallet
+      </Button>
       <WalletModal open={modalOpen} onClose={() => setModalOpen(false)} />
     </div>
   );
@@ -66,8 +73,9 @@ export function WalletConnect() {
   if (status === 'connecting') return (
     <div className="flex items-center gap-2">
       <NetworkSelector />
-      <div className="rounded-lg border border-[#00FF88]/30 bg-[#00FF88]/10 px-4 py-2 text-sm text-[#00FF88]"
-        role="status" aria-label="Connecting wallet">Connecting...</div>
+      <Button variant="secondary" size="sm" isLoading loadingText="Connecting..." disabled>
+        Connect Wallet
+      </Button>
     </div>
   );
 
